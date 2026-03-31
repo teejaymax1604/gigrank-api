@@ -5,9 +5,9 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors({
-    origin: '*', // This allows requests from ANY website (like your GitHub Pages)
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type']
+    origin: '*', 
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 const SCRAPINGBEE_API_KEY = 'YOUR_SCRAPINGBEE_KEY';
