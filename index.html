@@ -3,121 +3,97 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GigRank — 5 Min Gig Builder</title>
+    <title>GigRank — Professional Builder</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
         :root { --bg: #09090f; --surface: #12121c; --accent: #7c6ef5; --text: #efeffa; --text2: #9997b8; }
         body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 900px; margin-top: 40px; }
-        .card { background: var(--surface); border-radius: 18px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.07); }
-        .hero h1 { font-family: 'Syne', sans-serif; font-size: 2.5rem; margin-bottom: 10px; }
-        .hero span { color: var(--accent); }
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
-        .tab { padding: 12px 24px; background: #1a1a28; border-radius: 10px; cursor: pointer; font-size: 14px; white-space: nowrap; border: 1px solid transparent; transition: 0.3s; }
+        .card { background: var(--surface); border-radius: 18px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.07); position: relative; }
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; white-space: nowrap; padding-bottom: 10px; }
+        .tab { padding: 12px 20px; background: #1a1a28; border-radius: 10px; cursor: pointer; font-size: 13px; border: 1px solid transparent; transition: 0.3s; color: var(--text2); }
         .tab.active { background: var(--accent); color: white; border-color: rgba(255,255,255,0.2); }
-        .btn-primary { width: 100%; background: var(--accent); color: #fff; padding: 18px; border-radius: 12px; border: none; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
-        .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        textarea { width: 100%; height: 250px; background: #09090f; color: #fff; border: 1px solid #333; border-radius: 12px; padding: 20px; font-family: inherit; margin-top: 15px; box-sizing: border-box; line-height: 1.6; }
+        .btn-primary { width: 100%; background: var(--accent); color: #fff; padding: 18px; border-radius: 12px; border: none; font-weight: 700; font-size: 1.1rem; cursor: pointer; }
+        textarea { width: 100%; height: 350px; background: #05050a; color: #fff; border: 1px solid #222; border-radius: 12px; padding: 20px; font-family: inherit; margin-top: 15px; box-sizing: border-box; line-height: 1.6; font-size: 14px; }
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         .loading { display:none; text-align: center; padding: 60px 20px; }
-        .spinner { width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.1); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 30px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .progress-container { width: 100%; height: 10px; background: #1a1a28; border-radius: 20px; margin: 30px 0; overflow: hidden; }
+        .progress-container { width: 100%; height: 6px; background: #1a1a28; border-radius: 10px; margin: 30px 0; overflow: hidden; }
         #status-bar { width: 0%; height: 100%; background: var(--accent); transition: width 0.4s ease; }
+        .tag { display: inline-block; background: rgba(124, 110, 245, 0.1); border: 1px solid var(--accent); color: var(--accent); padding: 4px 12px; border-radius: 20px; margin: 5px; font-size: 12px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
         <div id="step1">
             <div class="card">
-                <div class="hero"><h1>Gig<span>Rank</span> ⚡</h1></div>
-                <p style="color: var(--text2); margin-bottom: 30px;">Enter your niche to scrape top competitors and generate your ranking blueprint.</p>
+                <h1 style="font-family: 'Syne'; margin-bottom: 5px;">GigRank ⚡</h1>
+                <p style="color: var(--text2); margin-bottom: 25px;">Enter your niche. We'll scrape the 1st page winners and build your gig.</p>
                 <input type="text" id="keyword" placeholder="e.g. Shopify Store Developer" style="width:100%; padding:18px; border-radius:12px; border:1px solid #333; background:#1a1a28; color:#fff; font-size: 1rem; box-sizing: border-box;">
-                <button class="btn-primary" style="margin-top:20px;" onclick="startDeepResearch()">🔍 Research & Build Gig</button>
+                <button class="btn-primary" style="margin-top:20px;" onclick="startDeepResearch()">🚀 Analyze Page 1 Winners</button>
             </div>
         </div>
 
         <div id="loading" class="loading card">
-            <div class="spinner"></div>
-            <h2 id="status-text">Analyzing the Market...</h2>
-            <div class="progress-container">
-                <div id="status-bar"></div>
-            </div>
-            <p id="status-log" style="color:var(--text2); font-size: 14px; font-style: italic;">Connecting to proxies...</p>
+            <h2 id="status-text">Analyzing Competitor Psychology...</h2>
+            <div class="progress-container"><div id="status-bar"></div></div>
+            <p id="status-log" style="color:var(--text2); font-size: 14px;">Bypassing ads to find organic winners...</p>
         </div>
 
         <div id="editor" style="display:none;">
             <div class="stat-grid">
-                <div class="card" style="margin-bottom:0; text-align:center;">
-                    <small style="color:var(--text2); letter-spacing: 1px;">AVG MARKET PRICE</small>
-                    <h2 id="avgPrice" style="color: #2dd4a0; font-size: 2rem; margin: 10px 0;">$0</h2>
+                <div class="card" style="text-align:center;">
+                    <small>PAGE 1 AVG (PRO)</small><h2 id="avgPrice" style="color: #2dd4a0;">$0</h2>
                 </div>
-                <div class="card" style="margin-bottom:0; text-align:center;">
-                    <small style="color:var(--text2); letter-spacing: 1px;">TOP COMPETITORS</small>
-                    <h2 id="compCount" style="color: var(--accent); font-size: 2rem; margin: 10px 0;">0</h2>
+                <div class="card" style="text-align:center;">
+                    <small>SEARCH COMPETITION</small><h2 id="compCount" style="color: var(--accent);">Low</h2>
                 </div>
             </div>
 
             <div class="tabs">
-                <div class="tab active" onclick="showTab('title', event)">SEO Gig Title</div>
-                <div class="tab" onclick="showTab('desc', event)">Gig Description</div>
-                <div class="tab" onclick="showTab('packages', event)">Pricing Tiers</div>
+                <div class="tab active" onclick="showTab('title', event)">SEO Title</div>
+                <div class="tab" onclick="showTab('desc', event)">Full Description</div>
+                <div class="tab" onclick="showTab('packages', event)">Pricing Strategy</div>
+                <div class="tab" onclick="showTab('tags', event)">Search Tags</div>
             </div>
 
             <div class="card">
                 <div id="title-box">
-                    <label style="font-weight: 700;">Winning Gig Title</label>
-                    <textarea id="ai-title"></textarea>
+                    <label>Recommended SEO Title (Based on top 15 competitors):</label>
+                    <textarea id="ai-title" style="height: 100px;"></textarea>
                 </div>
                 <div id="desc-box" style="display:none;">
-                    <label style="font-weight: 700;">High-Converting Description</label>
+                    <label>Copy-Paste High-Converting Description:</label>
                     <textarea id="ai-desc"></textarea>
                 </div>
                 <div id="packages-box" style="display:none;">
-                    <label style="font-weight: 700;">3-Tier Package Blueprint</label>
+                    <label>Suggested 3-Tier Pricing (Professional Range):</label>
                     <textarea id="ai-packages"></textarea>
                 </div>
+                <div id="tags-box" style="display:none;">
+                    <label>Recommended Search Tags (Boost Ranking):</label>
+                    <div id="tag-container" style="margin-top:20px; min-height: 100px;"></div>
+                </div>
             </div>
-            <button class="btn-primary" onclick="location.reload()">🔄 Start New Analysis</button>
+            <button class="btn-primary" onclick="location.reload()">Start New Analysis</button>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURATION ---
         const BACKEND_URL = 'https://gigrank-api.onrender.com';
         let scrapedData = {};
 
-        // --- THE LOGIC ---
         async function startDeepResearch() {
             const kw = document.getElementById('keyword').value;
-            if (!kw) return alert("Please enter a keyword first!");
-
+            if (!kw) return alert("Enter keyword!");
             document.getElementById('step1').style.display = 'none';
             document.getElementById('loading').style.display = 'block';
 
-            const logs = [
-                "Bypassing Fiverr security layers...",
-                "Pulling top 15 ranking gig titles...",
-                "Calculating average market pricing...",
-                "Analyzing keyword density in titles...",
-                "Optimizing for Fiverr search algorithm...",
-                "Finalizing gig blueprint..."
-            ];
-
-            let logIndex = 0;
+            const logs = ["Connecting to US Proxies...", "Filtering out sponsored ads...", "Parsing top seller structures...", "Analyzing keyword frequency...", "Calculating premium price floor...", "Finalizing blueprint..."];
             let progress = 0;
-            
-            // UI Progress Loop
             const uiInterval = setInterval(() => {
-                if (progress < 92) {
-                    progress += Math.random() * 12;
-                    document.getElementById('status-bar').style.width = progress + '%';
-                }
-                if (logIndex < logs.length) {
-                    document.getElementById('status-log').innerText = logs[logIndex];
-                    logIndex++;
-                }
-            }, 1800);
+                if (progress < 90) { progress += 10; document.getElementById('status-bar').style.width = progress + '%'; }
+                document.getElementById('status-log').innerText = logs[Math.floor(progress/15)] || logs[5];
+            }, 1500);
 
             try {
                 const res = await fetch(`${BACKEND_URL}/api/scrape-fiverr`, {
@@ -126,42 +102,35 @@
                     body: JSON.stringify({ keyword: kw })
                 });
                 const data = await res.json();
-                
                 clearInterval(uiInterval);
-                document.getElementById('status-bar').style.width = '100%';
-
-                if(data.success) {
-                    scrapedData = data;
-                    setTimeout(() => showEditor(kw), 600);
-                } else {
-                    throw new Error(data.error || "Connection timeout");
-                }
-            } catch (e) { 
-                clearInterval(uiInterval);
-                alert("Research Error: " + e.message); 
-                location.reload();
-            }
+                if(data.success) { scrapedData = data; showEditor(kw); }
+            } catch (e) { alert("Error: " + e.message); location.reload(); }
         }
 
         function showEditor(kw) {
             document.getElementById('loading').style.display = 'none';
             document.getElementById('editor').style.display = 'block';
             document.getElementById('avgPrice').innerText = `$${scrapedData.avgPrice}`;
-            document.getElementById('compCount').innerText = scrapedData.competitorCount || 15;
+            document.getElementById('compCount').innerText = scrapedData.competitorCount > 20 ? "High" : "Optimal";
 
-            // GENERATING THE BLUEPRINT
-            document.getElementById('ai-title').value = `I will build a high converting ${kw} and design`;
-            
-            document.getElementById('ai-desc').value = `Looking for a professional ${kw}? \n\nI have analyzed the top-ranking gigs in this niche to understand exactly what converts. \n\nWhat I Offer:\n- 100% Professional Design\n- SEO Friendly Setup\n- Optimized Content\n- Fast Delivery\n\nContact me before ordering!`;
-            
-            document.getElementById('ai-packages').value = `BASIC: $${scrapedData.avgPrice - 10}\nStandard setup with basic features.\n\nSTANDARD: $${scrapedData.avgPrice}\nFull design and SEO optimization.\n\nPREMIUM: $${parseInt(scrapedData.avgPrice) + 50}\nThe complete VIP growth package.`;
+            // SEO TITLE LOGIC
+            const topTitle = scrapedData.topTitles[0] || `Design a Professional ${kw}`;
+            document.getElementById('ai-title').value = `I will ${topTitle.toLowerCase().replace('i will', '').trim()}`;
+
+            // FULL DESCRIPTION BLUEPRINT
+            document.getElementById('ai-desc').value = `★ PROFESSIONAL ${kw.toUpperCase()} SERVICE ★\n\nAre you looking to stand out on Fiverr? I analyzed the top 1% of sellers in the ${kw} niche to create this service. I don't just build, I optimize for sales.\n\n✔ WHY CHOOSE ME?\n- Professional & Modern Design\n- SEO-Friendly Structure\n- High Conversion Optimization\n- 24/7 Premium Support\n\n✔ WHAT YOU GET:\n- Full Store/Gig Setup\n- Custom Theme Customization\n- Responsive Layout for Mobile\n- Speed Optimization\n\n✔ MY PROCESS:\n1. Requirements Analysis\n2. Design Mockup\n3. Development & Content\n4. Final Delivery & Revisions\n\nOrder now and let's dominate the search results together!`;
+
+            // PRICING BLUEPRINT
+            const base = parseInt(scrapedData.avgPrice);
+            document.getElementById('ai-packages').value = `BASIC ($${base - 20}): Standard Setup\nPerfect for small projects. Includes core features and basic design.\n\nSTANDARD ($${base}): Professional Build\nThe Market Standard. Full SEO optimization, custom design, and up to 5 pages.\n\nPREMIUM ($${base + 100}): VIP Business Package\nFull high-end development, marketing integration, speed optimization, and 1-month support.`;
+
+            // TAGS LOGIC
+            document.getElementById('tag-container').innerHTML = scrapedData.suggestedTags.map(t => `<span class="tag">${t}</span>`).join('');
         }
 
         function showTab(type, event) {
-            document.getElementById('title-box').style.display = type === 'title' ? 'block' : 'none';
-            document.getElementById('desc-box').style.display = type === 'desc' ? 'block' : 'none';
-            document.getElementById('packages-box').style.display = type === 'packages' ? 'block' : 'none';
-            
+            ['title', 'desc', 'packages', 'tags'].forEach(t => document.getElementById(t + '-box').style.display = 'none');
+            document.getElementById(type + '-box').style.display = 'block';
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             event.currentTarget.classList.add('active');
         }
