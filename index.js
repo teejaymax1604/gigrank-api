@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const SCRAPINGBEE_KEY = 'YOUR_ACTUAL_KEY_HERE';
+const SCRAPINGBEE_KEY = 'CM2ZDRJJ74TQIGLC6AAGW7AQSB3STCRLVPYU7YG87PCDIYF96JXXGT3ZRTJPC6KL252NYJHT79YXSVNM';
 
 app.get('/', (req, res) => {
     res.status(200).send('GigRank Server is officially ALIVE');
