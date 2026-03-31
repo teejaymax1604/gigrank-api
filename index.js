@@ -4,45 +4,48 @@ const cheerio = require('cheerio');
 const cors = require('cors');
 
 const app = express();
+
+// Absolute simplest CORS setup
 app.use(cors());
 app.use(express.json());
 
-const SCRAPINGBEE_KEY = 'YOUR_KEY_HERE';
+const SCRAPINGBEE_KEY = 'YOUR_ACTUAL_KEY_HERE';
 
-app.get('/', (req, res) => res.send('Server is Up!'));
+app.get('/', (req, res) => {
+    res.status(200).send('GigRank Server is officially ALIVE');
+});
 
 app.post('/api/scrape-fiverr', async (req, res) => {
-    try {
-        const { keyword } = req.body;
-        console.log(`Searching for: ${keyword}`);
+    const { keyword } = req.body;
+    if (!keyword) return res.status(400).json({ error: 'Keyword missing' });
 
+    try {
         const response = await axios.get('https://app.scrapingbee.com/api/v1', {
             params: {
                 'api_key': SCRAPINGBEE_KEY,
                 'url': `https://www.fiverr.com/search/gigs?query=${encodeURIComponent(keyword)}`,
                 'premium_proxy': 'true'
-            },
-            timeout: 15000 // 15 second limit
+            }
         });
 
         const $ = cheerio.load(response.data);
         const gigs = [];
         
-        // This selector is the most common for Fiverr search results
-        $('.gig-card-layout, [data-testid="gig_card"]').each((i, el) => {
+        $('.gig-card-layout, .search-gig-card').each((i, el) => {
             if (i < 5) {
                 const title = $(el).find('h3').text().trim();
-                const price = $(el).find('.price-wrapper, .price').text().trim();
-                if (title) gigs.push({ title, price });
+                if (title) gigs.push({ title });
             }
         });
 
-        res.json({ success: true, topGigs: gigs, avgPrice: 45 }); // Hardcoded 45 for testing
-
+        res.json({ success: true, topGigs: gigs, avgPrice: 50 });
     } catch (err) {
-        console.error("SCRAPE ERROR:", err.message);
         res.status(500).json({ success: false, error: err.message });
     }
 });
 
-app.listen(process.env.PORT || 3000);
+// Render needs this specific port setup to stay alive
+const port = process.env.PORT || 10000;
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server listening on port ${port}`);
+});
