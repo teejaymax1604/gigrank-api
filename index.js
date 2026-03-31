@@ -20,12 +20,16 @@ app.post('/api/scrape-fiverr', async (req, res) => {
     if (!keyword) return res.status(400).json({ error: 'Keyword missing' });
 
     try {
-        const response = await axios.get('https://app.scrapingbee.com/api/v1', {
+       const response = await axios.get('https://app.scrapingbee.com/api/v1', {
             params: {
                 'api_key': SCRAPINGBEE_KEY,
                 'url': `https://www.fiverr.com/search/gigs?query=${encodeURIComponent(keyword)}`,
-                'premium_proxy': 'true'
-            }
+                'render_js': 'true', // Changed to true to handle Fiverr's dynamic content
+                'premium_proxy': 'true',
+                'wait_for': '.gig-card-layout' // Tells ScrapingBee to wait until it sees a gig card before finishing
+            },
+            timeout: 28000 // Keep it just under Render's 30-second limit
+        });
         });
 
         const $ = cheerio.load(response.data);
