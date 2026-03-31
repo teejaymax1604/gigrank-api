@@ -3,160 +3,84 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GigRank — Live Fiverr Intelligence</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+    <title>GigRank — Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
-        :root {
-            --bg: #09090f;
-            --surface: #12121c;
-            --surface2: #1a1a28;
-            --border: rgba(255,255,255,0.07);
-            --accent: #7c6ef5;
-            --accent2: #a899ff;
-            --green: #2dd4a0;
-            --text: #efeffa;
-            --text2: #9997b8;
-            --text3: #55536e;
-            --rl: 18px;
-            --r: 12px;
-        }
-        *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;display:flex;flex-direction:column;align-items:center}
-        header{width:100%;padding:1.25rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(9,9,15,0.93);backdrop-filter:blur(14px);z-index:100}
-        .logo{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;letter-spacing:-0.5px}
-        .logo span{color:var(--accent2)}
-        main{width:100%;max-width:860px;padding:2.5rem 1.5rem}
-        .prog{height:3px;background:var(--border);border-radius:2px;margin-bottom:2.5rem;overflow:hidden}
-        .prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:25%;transition:width .4s ease}
-        .hero{text-align:center;margin-bottom:2.5rem}
-        .hero h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,6vw,3.5rem);font-weight:800;line-height:1.1;letter-spacing:-1.5px;margin-bottom:15px}
-        .hero em{font-style:normal;color:var(--accent2)}
-        .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:2rem;margin-bottom:1.5rem;width:100%}
-        .ch{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
-        .ci{width:40px;height:40px;border-radius:10px;background:rgba(124,110,245,0.15);display:flex;align-items:center;justify-content:center;font-size:18px}
-        .ct{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700}
-        .fr{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:1.5rem}
-        label{display:block;font-size:12px;color:var(--text2);margin-bottom:8px;font-weight:500;text-transform:uppercase;letter-spacing:1px}
-        input, select, textarea{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:var(--r);padding:12px 16px;font-size:14px;outline:none}
-        .svc-checks{display:grid;grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));gap:12px;margin-top:10px}
-        .svc-checks label{text-transform:none;letter-spacing:0;display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--text2)}
-        .btn-primary{width:100%;background:var(--accent);color:#fff;padding:18px;border-radius:var(--r);border:none;font-weight:700;font-size:1rem;cursor:pointer;transition:transform 0.2s}
-        .btn-primary:hover{transform:translateY(-2px);background:var(--accent2)}
-        .screen{display:none}
-        .screen.active{display:block;animation:fadeIn 0.4s ease}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-        .step-row{display:flex;gap:15px;padding:15px 0;border-bottom:1px solid var(--border)}
-        .step-n{width:24px;height:24px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
-        @media(max-width:600px){.fr{grid-template-columns:1fr}}
+        :root { --bg: #09090f; --surface: #12121c; --accent: #7c6ef5; --text: #efeffa; --text2: #9997b8; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; margin: 0; }
+        main { width: 100%; max-width: 800px; padding: 40px 20px; }
+        .card { background: var(--surface); border: 1px solid rgba(255,255,255,0.07); border-radius: 18px; padding: 2rem; margin-bottom: 1.5rem; width: 100%; box-sizing: border-box; }
+        .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 3rem); text-align: center; margin-bottom: 2rem; }
+        .btn-primary { width: 100%; background: var(--accent); color: #fff; padding: 18px; border-radius: 12px; border: none; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .gig-item { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; }
+        .gig-item:last-child { border-bottom: none; }
+        .price-tag { color: #2dd4a0; font-weight: 700; }
+        #loadWrap { display: none; text-align: center; padding: 40px; }
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">Gig<span>Rank</span></div>
-    </header>
     <main>
-        <div class="prog"><div class="prog-fill" id="pf"></div></div>
-
-        <div class="screen active" id="s1">
-            <div class="hero">
-                <h1>Rank on Fiverr with<br/><em>Live Data Intelligence.</em></h1>
-                <p style="color:var(--text2)">We scrape top competitors using ScrapingBee to build your winning strategy.</p>
-            </div>
+        <div id="setup">
+            <div class="hero"><h1>Gig<span>Rank</span> Intelligence</h1></div>
             <div class="card">
-                <div class="ch"><div class="ci">🚀</div><div class="ct">Market Setup</div></div>
-                <div class="fr">
-                    <div>
-                        <label>Main Keyword</label>
-                        <input type="text" id="keyword" value="shopify store developer">
-                    </div>
-                    <div>
-                        <label>Your Level</label>
-                        <select id="level">
-                            <option value="new seller">New Seller</option>
-                            <option value="intermediate">Intermediate</option>
-                            <option value="expert">Expert</option>
-                        </select>
-                    </div>
-                </div>
-                <label>Services Included</label>
-                <div class="svc-checks">
-                    <label><input type="checkbox" id="c1" checked> Full Store Setup</label>
-                    <label><input type="checkbox" id="c2" checked> Custom Theme</label>
-                    <label><input type="checkbox" id="c3" checked> Dropshipping</label>
-                    <label><input type="checkbox" id="c4"> Speed Optimization</label>
-                </div>
+                <label style="display:block; margin-bottom:10px; font-weight:700;">What do you want to rank for?</label>
+                <input type="text" id="keyword" value="shopify store developer" style="width:100%; padding:15px; border-radius:8px; border:none; background:#1a1a28; color:#fff;">
+                <button class="btn-primary" style="margin-top:20px;" onclick="doResearch()">🔍 Research Live Data</button>
             </div>
-
-            <div class="card" style="background:var(--surface2)">
-                <div class="ch"><div class="ci">🛡️</div><div class="ct">Live Scraping Engine</div></div>
-                <div class="step-row"><div class="step-n">1</div><div class="step-t"><strong>Real-time Scrape:</strong> We bypass Fiverr's blocks using ScrapingBee proxies.</div></div>
-                <div class="step-row"><div class="step-n">2</div><div class="step-t"><strong>Competitor Extraction:</strong> We pull live titles, pricing, and ratings.</div></div>
-                <div class="step-row"><div class="step-n">3</div><div class="step-t"><strong>SEO Build:</strong> AI uses that data to write your specific gig tags and titles.</div></div>
-            </div>
-            
-            <button class="btn-primary" onclick="doResearch()">🔍 Run Scraping & Research</button>
         </div>
 
-        <div class="screen" id="s2">
-            <div class="card" id="loadWrap" style="text-align:center; padding:4rem 1rem;">
-                <h2 id="lt">Scraping Fiverr Search Results...</h2>
-                <p style="color:var(--text2); margin-top:10px;">This takes a few seconds via ScrapingBee proxies.</p>
+        <div id="loadWrap">
+            <div class="spinner"></div>
+            <h2>Scraping Fiverr Results...</h2>
+            <p style="color:var(--text2)">Using ScrapingBee proxies to bypass blocks.</p>
+        </div>
+
+        <div id="results" style="display:none;">
+            <div class="card">
+                <h2 id="avgDisplay" style="text-align:center; color:var(--accent); font-size:2.5rem; margin-bottom:10px;">$0</h2>
+                <p style="text-align:center; color:var(--text2); margin-bottom:20px;">Average starting price in this niche</p>
+                <div id="gigList"></div>
             </div>
-            <div id="resWrap" style="display:none">
-                <div class="hero"><h2>Scrape Results</h2></div>
-                <div id="statsBox"></div>
-                <div class="card" id="insightBox"></div>
-                <button class="btn-primary" onclick="goTo(3)">✍️ Build My Gig</button>
-            </div>
+            <button class="btn-primary" onclick="location.reload()">🔄 Start New Search</button>
         </div>
     </main>
 
     <script>
-        let R = {};
-        // REPLACE THIS WITH YOUR ACTUAL RENDER URL
         const BACKEND_URL = 'https://gigrank-api.onrender.com';
 
-        function goTo(n) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('s' + n).classList.add('active');
-            document.getElementById('pf').style.width = (n * 25) + '%';
-            window.scrollTo(0,0);
-        }
-
         async function doResearch() {
-            const kw = document.getElementById('keyword').value.trim();
-            if(!kw) return alert('Enter a keyword');
-            
-            goTo(2);
-            
+            const kw = document.getElementById('keyword').value;
+            document.getElementById('setup').style.display = 'none';
+            document.getElementById('loadWrap').style.display = 'block';
+
             try {
-                // 1. CALL THE RENDER BACKEND
-                const response = await fetch(`${BACKEND_URL}/api/scrape-fiverr`, {
+                const res = await fetch(`${BACKEND_URL}/api/scrape-fiverr`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ keyword: kw })
                 });
-                
-                const data = await response.json();
-                
-                if(data.success) {
-                    R = data;
-                    renderResearch(data);
+                const data = await res.json();
+
+                if (data.success) {
+                    document.getElementById('loadWrap').style.display = 'none';
+                    document.getElementById('results').style.display = 'block';
+                    document.getElementById('avgDisplay').innerText = `$${data.avgPrice}`;
+                    document.getElementById('gigList').innerHTML = data.topGigs.map(g => `
+                        <div class="gig-item">
+                            <span>${g.title}</span>
+                            <span class="price-tag">${g.price}</span>
+                        </div>
+                    `).join('');
                 } else {
-                    throw new Error('Scrape failed');
+                    throw new Error(data.error);
                 }
             } catch (e) {
-                document.getElementById('lt').innerHTML = "⚠️ Error: " + e.message + "<br><small>Make sure your Render server is awake!</small>";
+                alert("Error: " + e.message);
+                location.reload();
             }
-        }
-
-        function renderResearch(d) {
-            document.getElementById('loadWrap').style.display = 'none';
-            document.getElementById('resWrap').style.display = 'block';
-            document.getElementById('insightBox').innerHTML = `
-                <p><strong>Average Price:</strong> $${d.avgPrice}</p>
-                <p style="margin-top:10px"><strong>Top Gigs Scraped:</strong> ${d.topGigs.length}</p>
-            `;
         }
     </script>
 </body>
