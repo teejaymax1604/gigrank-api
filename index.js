@@ -7,7 +7,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const SB_KEY = 'CM2ZDRJJ74TQIGLC6AAGW7AQSB3STCRLVPYU7YG87PCDIYF96JXXGT3ZRTJPC6KL252NYJHT79YXSVNM'; // <--- KEEP YOUR KEY HERE
+const SB_KEY = 'CM2ZDRJJ74TQIGLC6AAGW7AQSB3STCRLVPYU7YG87PCDIYF96JXXGT3ZRTJPC6KL252NYJHT79YXSVNM'; // <--- MAKE SURE YOUR KEY IS HERE
+
+app.get('/', (req, res) => res.send('GigRank Engine is Online'));
 
 app.post('/api/scrape-fiverr', async (req, res) => {
     const { keyword } = req.body;
@@ -15,24 +17,24 @@ app.post('/api/scrape-fiverr', async (req, res) => {
         const response = await axios.get('https://app.scrapingbee.com/api/v1', {
             params: {
                 'api_key': SB_KEY,
-                'url': `https://www.fiverr.com/search/gigs?query=${encodeURIComponent(keyword)}&source=pagination`,
+                'url': `https://www.fiverr.com/search/gigs?query=${encodeURIComponent(keyword)}`,
                 'premium_proxy': 'true',
                 'render_js': 'false'
             },
-            timeout: 20000
+            timeout: 22000
         });
 
         const $ = cheerio.load(response.data);
-        const topTitles = [];
         const prices = [];
+        const titles = [];
 
         $('.gig-card-layout, .search-gig-card').each((i, el) => {
-            if (i < 15) { // Pull top 15 competitors
+            if (i < 15) {
                 const title = $(el).find('h3, .title').text().trim();
                 const priceText = $(el).find('.price, .text-display-7').text().trim();
                 const priceNum = parseInt(priceText.replace(/[^0-9]/g, ''));
                 
-                if (title) topTitles.push(title);
+                if (title) titles.push(title);
                 if (!isNaN(priceNum)) prices.push(priceNum);
             }
         });
@@ -42,8 +44,8 @@ app.post('/api/scrape-fiverr', async (req, res) => {
         res.json({ 
             success: true, 
             avgPrice, 
-            topTitles, // This is the "Insider Info" for the AI
-            competitorCount: topTitles.length 
+            competitorCount: titles.length,
+            topTitles: titles 
         });
 
     } catch (err) {
