@@ -7,21 +7,74 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
 <style>
 :root {
-  --bg: #09090f;
-  --surface: #12121c;
-  --surface2: #1a1a28;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.13);
-  --accent: #7c6ef5;
-  --accent2: #a899ff;
-  --green: #2dd4a0;
-  --amber: #f5a623;
-  --red: #f06060;
-  --text: #efeffa;
-  --text2: #9997b8;
-  --text3: #55536e;
-  --r: 12px;
-  --rl: 18px;
+  --bg: #09090f;
+  --surface: #12121c;
+  --surface2: #1a1a28;
+  --border: rgba(255,255,255,0.07);
+  --accent: #7c6ef5;
+  --text: #efeffa;
+  --text2: #9997b8;
+  --rl: 18px;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main {
+  width: 100%;
+  max-width: 800px; /* This keeps it centered and readable */
+  padding: 40px 20px;
+}
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  padding: 2rem;
+  width: 100%;
+  margin-bottom: 2rem;
+  box-sizing: border-box; /* Crucial for padding */
+}
+
+.fr {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Ensure checkboxes don't stack weirdly */
+.svc-checks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 15px;
+}
+
+input, select, textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.btn-lg {
+  width: 100%;
+  padding: 18px;
+  font-size: 1.1rem;
+  cursor: pointer;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
