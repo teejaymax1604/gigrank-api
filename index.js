@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const SB_KEY = 'YOUR_SCRAPINGBEE_KEY'; // <--- KEEP YOUR KEY HERE
+const SB_KEY = 'CM2ZDRJJ74TQIGLC6AAGW7AQSB3STCRLVPYU7YG87PCDIYF96JXXGT3ZRTJPC6KL252NYJHT79YXSVNM'; // <--- KEEP YOUR KEY HERE
 
 app.get('/', (req, res) => res.send('GigRank Visual Intelligence Active'));
 
